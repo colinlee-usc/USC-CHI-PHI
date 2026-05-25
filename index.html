@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHI PHI — ETA DELTA — USC</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D50000;
+    --blue: #001AFF;
+    --white: #FFFFFF;
+    --black: #000000;
+    --off: #F0F0F0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Space Mono', monospace;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+    cursor: default;
+  }
+  ::selection { background: var(--red); color: var(--white); }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem; height: 56px;
+    background: var(--white);
+    border-bottom: 2px solid var(--black);
+    mix-blend-mode: normal;
+  }
+  .nav-logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--black);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .nav-logo .dot { width: 8px; height: 8px; background: var(--red); border-radius: 50%; }
+  .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--black); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; }
+  .hamburger span { display: block; width: 20px; height: 1.5px; background: var(--black); margin: 4px 0; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 56px 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+    background: var(--white);
+  }
+  .hero-stripe {
+    position: absolute; top: 0; right: 0;
+    width: 35vw; height: 100%;
+    background: var(--red);
+    z-index: 0;
+  }
+  .hero-stripe-blue {
+    position: absolute; bottom: 0; right: 35vw;
+    width: 4px; height: 40%;
+    background: var(--blue);
+    z-index: 1;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 70vw; }
+  .hero-pre {
+    font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(5rem, 14vw, 13rem);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--black);
+    animation: slideIn 0.6s 0.1s ease both;
+  }
+  .hero h1 .red { color: var(--red); }
+  .hero h1 .outline {
+    -webkit-text-stroke: 2px var(--black);
+    color: transparent;
+  }
+  .hero-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-top: 2.5rem;
+    max-width: 400px;
+    line-height: 1.9;
+    animation: slideIn 0.6s 0.25s ease both;
+  }
+  .hero-year {
+    position: absolute;
+    right: calc(35vw + 3rem);
+    bottom: 3rem;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    color: var(--blue);
+    opacity: 0.08;
+    line-height: 1;
+    z-index: 1;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 2.5rem;
+    font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--black); opacity: 0.3;
+    writing-mode: vertical-lr;
+    animation: pulse 2s infinite;
+  }
+
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    border-top: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    overflow: hidden;
+    background: var(--black);
+    padding: 1rem 0;
+  }
+  .marquee {
+    display: flex; gap: 4rem;
+    animation: scroll 20s linear infinite;
+    width: max-content;
+  }
+  .marquee span {
+    font-family: 'Anton', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--white);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .marquee .red-dot { color: var(--red); }
+  .marquee .blue-dot { color: var(--blue); }
+
+  /* ─── HISTORY ─── */
+  .history {
+    padding: 8rem 2.5rem;
+    position: relative;
+  }
+  .history::before {
+    content: 'ΧΦ';
+    position: absolute; top: 4rem; right: 2.5rem;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(8rem, 20vw, 18rem);
+    color: var(--off);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .history-content { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+  .history-label {
+    font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .history-label::after { content: ''; flex: 1; height: 1px; background: var(--red); opacity: 0.3; }
+  .history-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .history-text {
+    padding-right: 5rem;
+    border-right: 2px solid var(--black);
+  }
+  .history-text h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+  .history-text h2 .blue { color: var(--blue); }
+  .history-para {
+    font-size: 0.78rem;
+    line-height: 2;
+    color: rgba(0,0,0,0.6);
+    margin-bottom: 1.5rem;
+    max-width: 480px;
+  }
+  .history-timeline {
+    padding-left: 5rem;
+  }
+  .tl-entry {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    transition: all 0.3s;
+  }
+  .tl-entry:first-child { padding-top: 0; }
+  .tl-entry:hover { padding-left: 0.5rem; }
+  .tl-entry:hover .tl-yr { color: var(--red); }
+  .tl-yr {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.4rem;
+    color: var(--black);
+    transition: color 0.3s;
+  }
+  .tl-info h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .tl-info p {
+    font-size: 0.68rem;
+    line-height: 1.8;
+    color: rgba(0,0,0,0.45);
+  }
+
+  /* ─── BOARD ─── */
+  .board-section {
+    background: var(--black);
+    color: var(--white);
+    padding: 6rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .board-section::after {
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    width: 1px; height: 100%;
+    background: rgba(255,255,255,0.06);
+  }
+  .board-inner { max-width: 1400px; margin: 0 auto; }
+  .board-label {
+    font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 3rem;
+  }
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .board-card {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.3s;
+  }
+  .board-card:last-child { border-right: none; }
+  .board-card:hover { background: rgba(255,255,255,0.03); }
+  .bc-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 3rem;
+    color: var(--red);
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .bc-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+  .bc-role {
+    font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--blue);
+  }
+  .bc-class {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.25);
+    margin-top: 0.3rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── CONNECT ─── */
+  .connect {
+    padding: 8rem 2.5rem;
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+    background: var(--white);
+  }
+  .connect::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--black);
+  }
+  .connect-inner {
+    text-align: center;
+    max-width: 600px;
+  }
+  .connect-label {
+    font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 2rem;
+  }
+  .connect h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 2rem;
+  }
+  .connect h2 .red { color: var(--red); }
+  .connect p {
+    font-size: 0.72rem;
+    line-height: 2;
+    color: rgba(0,0,0,0.4);
+    margin-bottom: 3rem;
+    letter-spacing: 0.05em;
+  }
+  .fb-link {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    padding: 1rem 2.5rem;
+    background: var(--blue);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    transition: all 0.3s;
+    border: 2px solid var(--blue);
+  }
+  .fb-link:hover {
+    background: var(--white);
+    color: var(--blue);
+  }
+  .fb-link svg { width: 18px; height: 18px; fill: currentColor; }
+  .connect-sub {
+    margin-top: 3rem;
+    display: flex; gap: 2rem; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .connect-sub a {
+    font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(0,0,0,0.25);
+    text-decoration: none;
+    transition: color 0.3s;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+  }
+  .connect-sub a:hover { color: var(--red); border-color: var(--red); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.2);
+    padding: 2rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    border-top: 2px solid var(--red);
+  }
+  .foot-brand {
+    font-family: 'Anton', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.15em;
+    color: var(--white); text-transform: uppercase;
+  }
+  footer small {
+    font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* ─── ANIMS ─── */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scroll {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.vis { opacity: 1; transform: none; }
+  .reveal-d1 { transition-delay: 0.08s; }
+  .reveal-d2 { transition-delay: 0.16s; }
+  .reveal-d3 { transition-delay: 0.24s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .history-grid { grid-template-columns: 1fr; }
+    .history-text { padding-right: 0; border-right: none; border-bottom: 2px solid var(--black); padding-bottom: 3rem; margin-bottom: 3rem; }
+    .history-timeline { padding-left: 0; }
+    .board-grid { grid-template-columns: repeat(2, 1fr); }
+    .board-card:nth-child(2) { border-right: none; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .hero { padding: 56px 1.5rem 0; }
+    .hero-content { max-width: 100%; }
+    .hero-stripe { width: 25vw; }
+    .hero-year { display: none; }
+    section, .history, .connect { padding: 5rem 1.5rem; }
+    .board-grid { grid-template-columns: 1fr; }
+    .board-card { border-right: none; }
+    .connect-sub { flex-direction: column; align-items: center; }
+    footer { justify-content: center; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span class="dot"></span> Chi Phi USC</div>
+  <ul class="nav-links">
+    <li><a href="#history">History</a></li>
+    <li><a href="#board">Board</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-stripe"></div>
+  <div class="hero-stripe-blue"></div>
+  <div class="hero-content">
+    <div class="hero-pre">University of Southern California — Eta Delta Chapter</div>
+    <h1>CHI<br><span class="red">PHI</span><br><span class="outline">ALUMNI</span></h1>
+    <p class="hero-sub">Truth, Honor, and Personal Integrity. The oldest fraternity in America. Building better men since 1824.</p>
+  </div>
+  <div class="hero-year">1934</div>
+  <div class="hero-scroll">Scroll ↓</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>Truth <span class="red-dot">●</span> Honor <span class="blue-dot">●</span> Personal Integrity</span>
+    <span>Est. 1824 <span class="red-dot">●</span> Eta Delta <span class="blue-dot">●</span> USC</span>
+    <span>Chi Phi <span class="red-dot">●</span> Oldest Fraternity <span class="blue-dot">●</span> 1,000+ Alumni</span>
+    <span>Truth <span class="red-dot">●</span> Honor <span class="blue-dot">●</span> Personal Integrity</span>
+    <span>Est. 1824 <span class="red-dot">●</span> Eta Delta <span class="blue-dot">●</span> USC</span>
+    <span>Chi Phi <span class="red-dot">●</span> Oldest Fraternity <span class="blue-dot">●</span> 1,000+ Alumni</span>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<section id="history" class="history">
+  <div class="history-content">
+    <div class="history-label">Chapter History</div>
+    <div class="history-grid">
+      <div class="history-text reveal">
+        <h2>A LEGACY<br><span class="blue">RENEWED</span></h2>
+        <p class="history-para">Chi Phi is the oldest social fraternity in the United States, founded at Princeton University on Christmas Eve, 1824. It was formed through the merger of three independent organizations — the Chi Phi Society, the Chi Phi Fraternity of the South, and the Secret Order of Chi Phi — united by the shared values of Truth, Honor, and Personal Integrity.</p>
+        <p class="history-para">The Eta Delta Chapter was chartered at USC in 1934 as Chi Phi expanded westward. Through the decades it grew into one of the most diverse and academically strong houses on the Row, peaking at over 100 members with consistently top-tier GPAs.</p>
+        <p class="history-para">In the late 1990s, leadership gaps from graduating upperclassmen led the chapter to leave the Row in 1999 — not for misconduct, but simply declining numbers. The alumni network, however, never disappeared. In Fall 2016, backed by an extraordinary show of alumni commitment, the IFC voted to welcome Chi Phi back to USC after a 17-year hiatus.</p>
+        <p class="history-para">Today, over 1,000 Eta Delta alumni span business, government, medicine, and engineering — actively serving as career mentors, advisors, and alumni association officers driving the chapter forward.</p>
+      </div>
+      <div class="history-timeline reveal reveal-d1">
+        <div class="tl-entry">
+          <div class="tl-yr">1824</div>
+          <div class="tl-info"><h4>Founded</h4><p>Chi Phi Society established at Princeton — the oldest social fraternity in America.</p></div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-yr">1874</div>
+          <div class="tl-info"><h4>United Order</h4><p>North and South orders merge in Washington, D.C. forming one national fraternity.</p></div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-yr">1934</div>
+          <div class="tl-info"><h4>Eta Delta</h4><p>Chapter chartered at the University of Southern California during Chi Phi's westward expansion.</p></div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-yr">1980s</div>
+          <div class="tl-info"><h4>Peak Era</h4><p>100+ members. Among the most diverse houses and highest GPAs on fraternity row.</p></div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-yr">1999</div>
+          <div class="tl-info"><h4>Departure</h4><p>Chapter leaves the Row due to declining membership — no misconduct, no hazing.</p></div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-yr">2016</div>
+          <div class="tl-info"><h4>The Return</h4><p>IFC votes to welcome Chi Phi back after 17 years. Alumni support was decisive.</p></div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-yr">Now</div>
+          <div class="tl-info"><h4>1,000+ Alumni</h4><p>Career mentors, advisors, and officers building the next generation of Chi Phi at USC.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOARD -->
+<section id="board" class="board-section">
+  <div class="board-inner">
+    <div class="board-label reveal">Alumni Board</div>
+    <div class="board-grid">
+      <div class="board-card reveal">
+        <div class="bc-num">01</div>
+        <div class="bc-name">John Doe</div>
+        <div class="bc-role">President</div>
+        <div class="bc-class">Class of '08</div>
+      </div>
+      <div class="board-card reveal reveal-d1">
+        <div class="bc-num">02</div>
+        <div class="bc-name">Michael Smith</div>
+        <div class="bc-role">Vice President</div>
+        <div class="bc-class">Class of '12</div>
+      </div>
+      <div class="board-card reveal reveal-d2">
+        <div class="bc-num">03</div>
+        <div class="bc-name">Robert Johnson</div>
+        <div class="bc-role">Treasurer</div>
+        <div class="bc-class">Class of '15</div>
+      </div>
+      <div class="board-card reveal reveal-d3">
+        <div class="bc-num">04</div>
+        <div class="bc-name">Andrew Williams</div>
+        <div class="bc-role">Secretary</div>
+        <div class="bc-class">Class of '10</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section id="connect" class="connect">
+  <div class="connect-inner reveal">
+    <div class="connect-label">Stay Connected</div>
+    <h2>FIND US<br>ON <span class="red">FACEBOOK</span></h2>
+    <p>Follow the Eta Delta Alumni page for chapter updates, event announcements, and alumni news.</p>
+    <a href="https://www.facebook.com/groups/USCChiPhi" target="_blank" class="fb-link">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Follow on Facebook
+    </a>
+    <div class="connect-sub">
+      <a href="https://www.chiphi.org" target="_blank">Chi Phi National</a>
+      <a href="https://uscchiphi.org" target="_blank">USC Chi Phi</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">ΧΦ — Eta Delta — USC</div>
+  <small>&copy; 2026 Chi Phi Alumni Association — University of Southern California</small>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
